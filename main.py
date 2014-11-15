@@ -15,6 +15,7 @@ from cmd_emoji import Emoji
 from cmd_time import TimeStats
 from cmd_weather import Weather
 from cmd_drake import Drake
+from cmd_motivate import Motivate
 from cmd_thanks import Thanks
 
 import sys
@@ -66,6 +67,7 @@ def setup_commands():
         "time stats": TimeStats(twitter),
         "weather in": Weather(twitter),
         "drake lyrics": Drake(twitter),
+        "motivate me|give motivation": Motivate(twitter),
         "thanks|thank you|thx": Thanks(twitter)
     }
     
