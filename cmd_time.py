@@ -19,13 +19,12 @@ class TimeStats:
         user_statuses = self.twitter.get_user_timeline(name=user)
         
         hour_count = {}
- 
+            
         for tweet in user_statuses:
             hour = time.strftime('%H', time.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y'))
-            utc_offset = int(tweet['user']['utc_offset'])
-            utc_offset = utc_offset / 3600
-            hour = int(hour) + utc_offset
             
+            hour = int(hour) - 5 # Time they give us is in UTC. We subtract 5 hours to convert it to EST
+
             if hour < 0:
                 hour = 24 + hour
             if hour > 24:
@@ -41,7 +40,7 @@ class TimeStats:
         if len(hour_count) == 0:
             reply = "@" + user + ": Based on your last 200 tweets, you don't tweet... at all.. ???"
         else:
-            common_hour = max(hour_count.iteritems(), key=operator.itemgetter(1))[0] # Common hour is in UTC format, we have to get the UTC_Offset to put it in EST
+            common_hour = max(hour_count.iteritems(), key=operator.itemgetter(1))[0] 
             pm_or_am = "PM"
             
             percentage = round(float(hour_count[common_hour]) / len(user_statuses), 4) * 100
@@ -51,9 +50,8 @@ class TimeStats:
             elif common_hour < 12:
                 pm_or_am = "AM"
                 
-            reply = "@" + user + ": Based on your last 200 tweets, you tweet the most during the hour of " + str(common_hour) + " " + pm_or_am + " (" + str(percentage) + "%) #WilburBot"
+            reply = "@" + user + ": Based on your last 200 tweets, you tweet the most during the hour of " + str(common_hour) + " " + pm_or_am + " EST (" + str(percentage) + "%) #WilburBot"
 
-        print reply
         if self.twitter.reply(reply=reply, reply_to=tweet_id) == True:
             print "[UPDATE] Gave time stats to " + user
         else:
