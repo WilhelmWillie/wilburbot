@@ -4,6 +4,8 @@ auth.py
 img/
 old_main.py
 
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
