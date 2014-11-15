@@ -40,9 +40,13 @@ def init():
     
     print "[START] WilburBot is up and running!"
     # If we started Wilbur Bot with the argument 'announce', we push a tweet announcing start up
-    if len(sys.argv) == 2 and sys.argv[1] == "announce":
-        print "[***] ANNOUNCING: Tweet will be posted to @WilburBot to alert followers"
-        twitter.post("I'm back up and running! Mention me in your tweets and I'll process your request! (" + time.strftime("%c") + ")")
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "announce":
+            print "[***] ANNOUNCING: Tweet will be posted to @WilburBot to alert followers"
+            twitter.post("I'm back up and running! Mention me in your tweets and I'll process your request! (" + time.strftime("%c") + ")")
+        elif sys.argv[1] == "debug":
+            print "[***] DEBUG ANNOUNCE: Tweet will be posted to @WilburBot letting users know you're testing out new features"
+            twitter.post("I'm back up and running in debug mode! This means features are being tested and/or added. As a result, I might break down at times!")
     
 # Main: Where most of the Wilbur Bot logic occurs
 def main():
@@ -55,12 +59,14 @@ def setup_commands():
     global commands
     # KEY = String of possible commands.. Multiple commands are split using the '|' delimiter
     # VALUE = Class used to deal with command
+    # NOTE: Commands are in order of priority (Top = HIGHEST)
     commands = {
         "basic stats": Basic(twitter),
         "emoji stats": Emoji(twitter),
+        "time stats": TimeStats(twitter),
         "weather in": Weather(twitter),
-        "thanks|thank you|thx": Thanks(twitter),
-        "drake lyrics": Drake(twitter)
+        "drake lyrics": Drake(twitter),
+        "thanks|thank you|thx": Thanks(twitter)
     }
     
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
@@ -91,3 +97,6 @@ def process_tweet(tweet):
     
 init()
 main()
+
+# Called when main stream closes
+twitter.post("Terminating main process. Either I've fallen asleep or was turned off manually")
