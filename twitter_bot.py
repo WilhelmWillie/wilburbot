@@ -21,6 +21,9 @@ class TwitterBot:
     
     def get_user_timeline(self,name):
         return self.twitter.statuses.user_timeline(screen_name=name,count=200,include_rts=False)
+
+    def get_favorites(self,name):
+        return self.twitter.favorites.list(screen_name=name, count=200)
         
     def reply(self,reply,reply_to):
         try:
