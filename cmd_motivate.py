@@ -39,7 +39,8 @@ class Motivate:
                 "The only place where success comes before work is in the dictionary"
         ]
         
-        reply = "@" + user + ": " + random.choice(messages)
+        index = random.randint(0, len(messages)-1)
+        reply = "@" + user + ": " + messages[index]
         
         if self.twitter.reply(reply=reply, reply_to=tweet_id) == True:
             print "[UPDATE] Gave motivation to " + user

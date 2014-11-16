@@ -26,7 +26,8 @@ class Thanks:
                 "You're welcome! #ballislife"
         ]
         
-        reply = "@" + user + ": " + random.choice(messages)
+        index = random.randint(0, len(messages)-1)
+        reply = "@" + user + ": " + messages[index]
         
         if self.twitter.reply(reply=reply, reply_to=tweet_id) == True:
             print "[UPDATE] Gave thanks to " + user

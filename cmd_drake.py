@@ -49,7 +49,8 @@ class Drake:
                 "We could do it real big, bigger than you ever done it"
         ]
         
-        reply = "@" + user + ": \"" + random.choice(messages) + "\" - Drake"
+        index = random.randint(0, len(messages)-1)
+        reply = "@" + user + ": \"" + messages[index] + "\" - Drake"
         
         if self.twitter.reply(reply=reply, reply_to=tweet_id) == True:
             print "[UPDATE] Gave Drake lyrics to " + user
