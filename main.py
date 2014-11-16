@@ -13,6 +13,7 @@ from twitter_bot import *
 from cmd_basic import Basic
 from cmd_emoji import Emoji
 from cmd_time import TimeStats
+from cmd_mention import Mention
 from cmd_weather import Weather
 from cmd_drake import Drake
 from cmd_motivate import Motivate
@@ -65,6 +66,7 @@ def setup_commands():
         "basic stats": Basic(twitter),
         "emoji stats": Emoji(twitter),
         "time stats": TimeStats(twitter),
+        "mention stats|mentions stats": Mention(twitter),
         "weather in": Weather(twitter),
         "drake lyrics": Drake(twitter),
         "motivate me|give motivation": Motivate(twitter),
