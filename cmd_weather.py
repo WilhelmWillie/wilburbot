@@ -54,7 +54,7 @@ class Weather:
                     low = data['list'][0]['main']['temp_min']
                     reply = "@" + user + ": In " + name + ", it is currently " + str(temperature) + " degrees Fahrenheit with a high of " + str(high) + " and a low of " + str(low)
         else:
-            reply = "@" + user + ": Your search query is invalid. Make sure you put quotation marks around your target location"
+            reply = "@" + user + ": Please put quotation marks around your target location"
              
         if self.twitter.reply(reply=reply, reply_to=tweet_id) == True:
             print "[UPDATE] Gave weather to " + user
