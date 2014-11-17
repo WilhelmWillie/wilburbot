@@ -19,7 +19,6 @@ from cmd_weather import Weather
 from cmd_drake import Drake
 from cmd_motivate import Motivate
 from cmd_thanks import Thanks
-from cmd_derive import Derive
 
 import sys
 import time
@@ -56,7 +55,8 @@ def init():
 def main():
     # Loops through tweets in stream
     for tweet in stream:
-        process_tweet(tweet)
+        if "retweeted_status" not in tweet: # It was brought to my attention that retweeted tweets can pop up in the stream.. this is to make sure we don't process such tweets
+            process_tweet(tweet)
 
 # Setup Commands: Instantiates command objects and store them in commands dictionary
 def setup_commands():
@@ -73,8 +73,7 @@ def setup_commands():
         "weather in": Weather(twitter),
         "drake lyrics": Drake(twitter),
         "motivate me|give motivation": Motivate(twitter),
-        "thanks|thank you|thx": Thanks(twitter),
-        "derive": Derive(twitter)
+        "thanks|thank you|thx": Thanks(twitter)
     }
 
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
