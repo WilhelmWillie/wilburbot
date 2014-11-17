@@ -36,7 +36,15 @@ class Motivate:
                 "No masterpiece was ever created by a lazy artist",
                 "Success is the sum of small efforts, repeated day-in and day-out.",
                 "Failure is the condiment that gives success its flavor.",
-                "The only place where success comes before work is in the dictionary"
+                "The only place where success comes before work is in the dictionary",
+                "There is no substitute for hard work",
+                "Do it now. Sometimes 'later' becomes 'never'",
+                "Excellence is not a skill. It is an attitude",
+                "'Regardless of the scoreboard, you're going to be succesful' - Apollos Hester",
+                "'It took an attitude. That's all it takes. That's all it takes to be succesful' - Apollos Hester"
+                "'You can do anything you put your mind to' - Apollos Hester",
+                "'ANYTHING IS POSSIBLEEE' - Kevin Garnett",
+                "The expert in anything was once a beginner"
         ]
         
         index = random.randint(0, len(messages)-1)
