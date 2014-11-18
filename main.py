@@ -19,6 +19,7 @@ from cmd_weather import Weather
 from cmd_drake import Drake
 from cmd_motivate import Motivate
 from cmd_thanks import Thanks
+from cmd_words import Words
 
 import sys
 import time
@@ -73,7 +74,8 @@ def setup_commands():
         "weather in": Weather(twitter),
         "drake lyrics": Drake(twitter),
         "motivate me|give motivation": Motivate(twitter),
-        "thanks|thank you|thx": Thanks(twitter)
+        "thanks|thank you|thx": Thanks(twitter),
+        "words stats|word stats": Words(twitter)
     }
 
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
