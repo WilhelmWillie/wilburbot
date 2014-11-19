@@ -20,6 +20,8 @@ from cmd_drake import Drake
 from cmd_motivate import Motivate
 from cmd_thanks import Thanks
 from cmd_words import Words
+from cmd_birthday import Birthday
+from cmd_movie import Movie
 
 import sys
 import time
@@ -57,7 +59,11 @@ def main():
     # Loops through tweets in stream
     for tweet in stream:
         if "retweeted_status" not in tweet: # It was brought to my attention that retweeted tweets can pop up in the stream.. this is to make sure we don't process such tweets
-            process_tweet(tweet)
+            try:
+                process_tweet(tweet)
+            except:
+                print "!!!!!!!"
+                pass # If something goes bad trying to process tweet, we ignore it to prevent Wilbur from crashing
 
 # Setup Commands: Instantiates command objects and store them in commands dictionary
 def setup_commands():
@@ -75,7 +81,9 @@ def setup_commands():
         "drake lyrics": Drake(twitter),
         "motivate me|give motivation": Motivate(twitter),
         "thanks|thank you|thx": Thanks(twitter),
-        "words stats|word stats": Words(twitter)
+        "words stats|word stats": Words(twitter),
+        "wish birthday to|wish happy birthday to": Birthday(twitter),
+        "movie info for": Movie(twitter)
     }
 
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
