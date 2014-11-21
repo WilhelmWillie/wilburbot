@@ -22,6 +22,7 @@ from cmd_thanks import Thanks
 from cmd_words import Words
 from cmd_birthday import Birthday
 from cmd_movie import Movie
+from cmd_pickup import Pickup
 
 import sys
 import time
@@ -62,7 +63,6 @@ def main():
             try:
                 process_tweet(tweet)
             except:
-                print "!!!!!!!"
                 pass # If something goes bad trying to process tweet, we ignore it to prevent Wilbur from crashing
 
 # Setup Commands: Instantiates command objects and store them in commands dictionary
@@ -83,7 +83,8 @@ def setup_commands():
         "thanks|thank you|thx": Thanks(twitter),
         "words stats|word stats": Words(twitter),
         "wish birthday to|wish happy birthday to": Birthday(twitter),
-        "movie info for": Movie(twitter)
+        "movie info for": Movie(twitter),
+        "pickup|pickup line": Pickup(twitter)
     }
 
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
