@@ -10,19 +10,21 @@ from auth import *
 from twitter_bot import *
 
 # Command imports
-from cmd_basic import Basic
-from cmd_emoji import Emoji
-from cmd_time import TimeStats
-from cmd_mention import Mention
-from cmd_favorites import Favorites
-from cmd_weather import Weather
-from cmd_drake import Drake
-from cmd_motivate import Motivate
-from cmd_thanks import Thanks
-from cmd_words import Words
-from cmd_birthday import Birthday
-from cmd_movie import Movie
-from cmd_pickup import Pickup
+## from cmd_basic import Basic
+## from cmd_emoji import Emoji
+## from cmd_time import TimeStats
+## from cmd_mention import Mention
+## from cmd_favorites import Favorites
+## from cmd_weather import Weather
+## from cmd_drake import Drake
+## from cmd_motivate import Motivate
+## from cmd_thanks import Thanks
+## from cmd_words import Words
+## from cmd_birthday import Birthday
+## from cmd_movie import Movie
+## from cmd_pickup import Pickup
+
+from commands import *
 
 import sys
 import time
@@ -49,11 +51,15 @@ def init():
     # If we started Wilbur Bot with the argument 'announce', we push a tweet announcing start up
     if len(sys.argv) == 2:
         if sys.argv[1] == "announce":
-            print "[***] ANNOUNCING: Tweet will be posted to @WilburBot to alert followers"
-            twitter.post("I'm back up and running! Mention me in your tweets and I'll process your request! (" + time.strftime("%c") + ")")
+            twitter.post(
+                message = "I'm back up and running! Mention me in your tweets and I'll process your request! (" + time.strftime("%H:%M:%S") + ")",
+                success_log = "[***] ANNOUNCING: Tweet will be posted to @WilburBot to alert followers"
+            )
         elif sys.argv[1] == "debug":
-            print "[***] DEBUG ANNOUNCE: Tweet will be posted to @WilburBot letting users know you're testing out new features"
-            twitter.post("I'm back up and running in debug mode! This means features are being tested and/or added. As a result, I might break down at times!")
+            twitter.post(
+                message = "I'm back up and running in debug mode! This means features are being tested and/or added. As a result, I might break down at times!",
+                success_log = "[***] DEBUG ANNOUNCE: Tweet will be posted to @WilburBot letting users know you're testing out new features"
+            )
 
 # Main: Where most of the Wilbur Bot logic occurs
 def main():
@@ -68,33 +74,32 @@ def main():
 # Setup Commands: Instantiates command objects and store them in commands dictionary
 def setup_commands():
     global commands
-    # KEY = String of possible commands.. Multiple commands are split using the '|' delimiter
+    # KEY = String of possible commands.. Aliases are split using the '|' delimiter
     # VALUE = Class used to deal with command
-    # NOTE: Commands are in order of priority (Top = HIGHEST)
     commands = {
-        "basic stats": Basic(twitter),
-        "emoji stats": Emoji(twitter),
-        "time stats": TimeStats(twitter),
-        "mention stats|mentions stats": Mention(twitter),
-        "favorite stats|favorites stats": Favorites(twitter),
-        "weather in": Weather(twitter),
-        "drake lyrics": Drake(twitter),
-        "motivate me|give motivation": Motivate(twitter),
-        "thanks|thank you|thx": Thanks(twitter),
-        "words stats|word stats": Words(twitter),
-        "wish birthday to|wish happy birthday to": Birthday(twitter),
-        "movie info for": Movie(twitter),
-        "pickup|pickup line": Pickup(twitter)
+        "basic stats": CmdBasicStats(twitter),
+        "emoji stats": CmdEmojiStats(twitter),
+        "favorite stats|favorites stats": CmdFavoriteStats(twitter),
+        "mention stats|mentions stats": CmdMentionStats(twitter),
+        "word stats|words stats": CmdWordStats(twitter),
+        "time stats": CmdTimeStats(twitter),
+        "weather in": CmdWeather(twitter),
+        "movie info for": CmdMovie(twitter),
+        "drake lyrics": CmdDrake(twitter),
+        "motivate|motivation": CmdMotivate(twitter),
+        "thanks|thank|thx": CmdThanks(twitter),
+        "wish birthday to|wish happy birthday to": CmdBirthday(twitter),
+        "pickup|pickup line": CmdPickup(twitter)
     }
 
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
 def process_tweet(tweet):
     if 'text' in tweet and 'id_str' in tweet:   # Every now and then, the stream might receive a non-tweet so this should check for an actual tweet
-        text = tweet['text'].lower()    # Force the string to go to lowercase to avoid case sensitive mishaps
+        text = tweet['text']
         tweet_id = tweet['id_str']
 
         # Make sure tweet was a mention of @WilburBot and not a mention of the string 'WilburBot'
-        if '@wilburbot' in text:
+        if '@wilburbot' in text.lower():    # We lower() the string text to catch all possible possibilities (e.g WILbURbot, wilburBOT, WILburBOT)
             user = tweet['user']['screen_name']
 
             # Loop through all possible commands in commands dictionary
@@ -116,5 +121,5 @@ def process_tweet(tweet):
 init()
 main()
 
-# Called when main stream closes
+# Called when main stream closes.. NOTE: Killing Wilbur through Control+C will not run this
 twitter.post("Terminating main process. Either I've fallen asleep or was turned off manually")
