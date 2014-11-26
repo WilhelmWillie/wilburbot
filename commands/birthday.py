@@ -25,9 +25,17 @@ class CmdBirthday:
             # Target location is captured in group(2) of the pattern
             target = pattern.group(1)
 
-            reply = "@" + target + ": HAPPY BIRTHDAY! Hope your day is as splendid as you are!"
+            messages = [
+                "HAPPY BIRTHDAY! Hope your day is as splendid as you are!",
+                "HAPPY BIRTHDAY! Have a great one!",
+                "Heard it's your birthday! HAPPY BIRTHDAY!",
+                "Enjoy your self and have fun! HAPPY BIRTHDAY"
+            ]
+        
+            index = random.randint(0, len(messages)-1)
+            reply = "@" + target + ": " + messages[index]
         else:
-            reply = "@" + user + ": Make sure you're actually mentioning a user"
+            reply = "@" + user + ": Make sure you are mentioning a user (With no quotes)"
 
         self.twitter.reply(
             reply = reply, 
