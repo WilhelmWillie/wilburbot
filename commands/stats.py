@@ -249,6 +249,8 @@ class CmdTimeStats:
             if common_hour > 12:
                 common_hour = common_hour - 12
             elif common_hour < 12:
+                if common_hour == 0:
+                    common_hour = 12 # Fixed bug where user might receive 0 AM as their most common time
                 pm_or_am = "AM"
                 
             reply = "@" + user + ": Based on your last 200 tweets, you tweet the most during the hour of " + str(common_hour) + " " + pm_or_am + " EST (" + str(percentage) + "%) #WilburBot"
@@ -258,3 +260,15 @@ class CmdTimeStats:
             reply_to = tweet_id, 
             success_log = "Gave time stats to " + user
         )
+
+################################################################################
+
+'''class CmdActivityStats:
+    twitter = None
+
+    def __init__(self, twitter):
+        self.twitter = twitter
+
+    def execute(self, user, tweet_id, text):
+        user_statuses = self.twitter.get_user_timeline(name=user)
+'''
