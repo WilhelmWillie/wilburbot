@@ -9,24 +9,10 @@
 from auth import *
 from twitter_bot import *
 
-# Command imports
-## from cmd_basic import Basic
-## from cmd_emoji import Emoji
-## from cmd_time import TimeStats
-## from cmd_mention import Mention
-## from cmd_favorites import Favorites
-## from cmd_weather import Weather
-## from cmd_drake import Drake
-## from cmd_motivate import Motivate
-## from cmd_thanks import Thanks
-## from cmd_words import Words
-## from cmd_birthday import Birthday
-## from cmd_movie import Movie
-## from cmd_pickup import Pickup
-
 from commands import *
 
 import sys
+import traceback # Used for debug purposes
 import time
 
 # Variables to be used throughout the Wilbur Bot program
@@ -35,6 +21,9 @@ stream = None # Used for streaming
 
 # Command List
 commands = None
+
+# Becomes True when @Willieminati commands Wilbur to terminate
+terminated = False
 
 # Init: Sets up Wilbur Bot
 def init():
@@ -68,7 +57,11 @@ def main():
         if "retweeted_status" not in tweet: # It was brought to my attention that retweeted tweets can pop up in the stream.. this is to make sure we don't process such tweets
             try:
                 process_tweet(tweet)
-            except:
+            except SystemExit:
+                terminated = True
+                break
+            except Exception as e:
+                print traceback.format_exc()
                 pass # If something goes bad trying to process tweet, we ignore it to prevent Wilbur from crashing
 
 # Setup Commands: Instantiates command objects and store them in commands dictionary
@@ -89,7 +82,9 @@ def setup_commands():
         "motivate|motivation": CmdMotivate(twitter),
         "thanks|thank|thx": CmdThanks(twitter),
         "wish birthday to|wish happy birthday to": CmdBirthday(twitter),
-        "pickup|pickup line": CmdPickup(twitter)
+        "pickup|pickup line": CmdPickup(twitter),
+        "terminate": CmdTerminate(twitter),
+        "forecast for": CmdForecast(twitter)
     }
 
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
@@ -110,7 +105,7 @@ def process_tweet(tweet):
                 command_executed = False
 
                 for label in command_labels:
-                    if label in text:
+                    if label in text.lower():
                         commands[command].execute(user=user,tweet_id=tweet_id,text=text)
                         command_executed = True
                         break # Terminate from loop early in case the same command alias occurs twice in the text
@@ -121,5 +116,6 @@ def process_tweet(tweet):
 init()
 main()
 
-# Called when main stream closes.. NOTE: Killing Wilbur through Control+C will not run this
-twitter.post("Terminating main process. Either I've fallen asleep or was turned off manually")
+if terminated == False
+    # Called when main stream closes.. NOTE: Killing Wilbur through Control+C will not run this
+    twitter.post("Terminating main process. Either I've fallen asleep or was turned off manually", "Posted termination tweet")
