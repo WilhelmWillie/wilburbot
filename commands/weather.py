@@ -38,21 +38,33 @@ class CmdWeather:
                         # Then we set our reply to an error message
                 reply = "@" + user + ": Error with pulling up weather data. Please try again later."
             else:
-                if data['count'] == 0:
-                    # If the count is 0, that means we did not find a city that matches the location the user wanted
-                    reply = "@" + user + ": The location you entered is not a valid location"
+                if data['message'] == "accurate":
+                    if data['count'] == 0:
+                        # If the count is 0, that means we did not find a city that matches the location the user wanted
+                        reply = "@" + user + ": We couldn't find weather data for your specified location"
+                    elif data['count'] == 1:
+                        # Otherwise, we get the first matched location (OpenWeatherMap might retrieve multiple cities.. It's up to user to be more specific)
+                        # and return temperature data
+                        name = data['list'][0]['name']
+                        
+                        if name == "":
+                            name = location
+                        
+                        temperature = data['list'][0]['main']['temp']
+                        condition_array = data['list'][0]['weather']
+                        reply = "@" + user + ": In " + name + ", it is currently " + str(temperature) + " degrees Fahrenheit. Conditions: "
+
+                        for i in range(0,len(condition_array)):
+                            if i == len(condition_array) - 1:
+                                reply = reply + condition_array[i]['description']
+                            else:
+                                reply = reply + condition_array[i]['description'] + ", "
+
+                    else:
+                        # There's a possibility that the user's location will have more than 1 result ("Paris" returns 2 results, "Paris, France" returns one)
+                        reply ="@" + user + ": Your location returned more than 1 result. Please be more specific (if possible)"
                 else:
-                    # Otherwise, we get the first matched location (OpenWeatherMap might retrieve multiple cities.. It's up to user to be more specific)
-                    # and return temperature data
-                    name = data['list'][0]['name']
-                    
-                    if name == "":
-                        name = location
-                    
-                    temperature = data['list'][0]['main']['temp']
-                    high = data['list'][0]['main']['temp_max']
-                    low = data['list'][0]['main']['temp_min']
-                    reply = "@" + user + ": In " + name + ", it is currently " + str(temperature) + " degrees Fahrenheit with a high of " + str(high) + " and a low of " + str(low)
+                    reply = "@" + user + ": The location you entered is not a valid location"
         else:
             reply = "@" + user + ": Please put quotation marks around your target location"
              
