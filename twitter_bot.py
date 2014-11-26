@@ -30,7 +30,8 @@ class TwitterBot:
         try:
             self.twitter.statuses.update(status=reply,in_reply_to_status_id=reply_to)
         except TwitterHTTPError as e:
-            print "[" + time.strftime("%H:%M:%S") + "] " + e
+            print "[" + time.strftime("%H:%M:%S") + "] Twitter HTTP Error"
+            print e
         else:
             print "[" + time.strftime("%H:%M:%S") + "] " + success_log
     
@@ -38,6 +39,7 @@ class TwitterBot:
         try:
             self.twitter.statuses.update(status=message)
         except TwitterHTTPError as e:
-            print "[" + time.strftime("%H:%M:%S") + "] " + e
+            print "[" + time.strftime("%H:%M:%S") + "] Twitter HTTP Error"
+            print e
         else:
             print "[" + time.strftime("%H:%M:%S") + "] " + success_log
