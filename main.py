@@ -85,6 +85,7 @@ def setup_commands():
         "pickup|pickup line": CmdPickup(twitter),
         "terminate": CmdTerminate(twitter),
         "forecast for": CmdForecast(twitter),
+#       === Christmas/Holiday commands ===
         "naughty|nice": CmdNaughtyOrNice(twitter),
         "merry christmas|happy holidays|happy hanukkah": CmdHolidays(twitter)
 #       === Experimental commands ===
