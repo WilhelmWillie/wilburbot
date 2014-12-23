@@ -10,3 +10,5 @@ from pickup import CmdPickup
 from terminate import CmdTerminate
 from face import CmdFace
 from derive import CmdDerive 
+from naughty_or_nice import CmdNaughtyOrNice
+from holidays import CmdHolidays

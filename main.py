@@ -85,8 +85,11 @@ def setup_commands():
         "pickup|pickup line": CmdPickup(twitter),
         "terminate": CmdTerminate(twitter),
         "forecast for": CmdForecast(twitter),
-        "face|analyze face|analyze my pic|analyze my picture|analyze this picture": CmdFace(twitter),
-        "derive|derivative": CmdDerive(twitter)
+        "naughty|nice": CmdNaughtyOrNice(twitter),
+        "merry christmas|happy holidays|happy hanukkah": CmdHolidays(twitter)
+#       === Experimental commands ===
+#       "face|analyze face|analyze my pic|analyze my picture|analyze this picture": CmdFace(twitter),
+#       "derive|derivative": CmdDerive(twitter)
     }
 
 # Process Tweet: When we find a tweet, process it and fire up any commands if needed
@@ -120,4 +123,4 @@ main()
 
 if terminated == False:
     # Called when main stream closes.. NOTE: Killing Wilbur through Control+C will not run this
-    twitter.post("Terminating main process. Either I've fallen asleep or was turned off manually", "Posted termination tweet")
+    twitter.post("Terminating main process. Either I've fallen asleep or was turned off manually (@Willieminati: Take a look!)", "Posted termination tweet")
