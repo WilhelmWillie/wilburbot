@@ -32,7 +32,7 @@ class CmdNaughtyOrNice:
         if naughty_percent > 0.15:
             reply = "@" + user + ": You're very naughty! " + str(round(naughty_percent * 100, 3)) + " percent of your tweets contain naughty words"
         else:
-            reply = "@" + user + ": You're very nice! Only " + str(round(naughty_percent * 100, 3)) + " percent of your tweets contain naughty words"
+            reply = "@" + user + ": You're very nice! Less than 15 percent of your tweets contain naughty words"
 
         self.twitter.reply(
             reply = reply, 
