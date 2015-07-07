@@ -1,0 +1,11 @@
+name: 'Wilbur'
+screen_name: 'WilburBot'
+owner: 'Willieminati'
+messages:
+    announce: "Hello world! I'm back up and running [%TIME%]"
+    shutdown: "Terminating main process. Shutting down... [%TIME%]"
+twitter:
+    consumer_key: 'EXAMPLE'
+    consumer_secret: 'EXAMPLE'
+    access_key: 'EXAMPLE'
+    access_secret: 'EXAMPLE'

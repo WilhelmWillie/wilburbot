@@ -1,14 +1,10 @@
-# Contains sensitive data
-wilbur_auth.dat
-auth.py
-img/
-old_main.py
-
-.DS_Store
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*$py.class
+
+# Settings YML (Contains sensitive data)
+settings.yml
 
 # C extensions
 *.so
@@ -21,6 +17,7 @@ develop-eggs/
 dist/
 downloads/
 eggs/
+.eggs/
 lib/
 lib64/
 parts/
@@ -44,9 +41,11 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
+.coverage.*
 .cache
 nosetests.xml
 coverage.xml
+*,cover
 
 # Translations
 *.mo
